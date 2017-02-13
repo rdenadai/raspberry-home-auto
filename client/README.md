@@ -21,3 +21,7 @@ P.S.: Python 3 support only...
 
 - Register using supervisor, or in cron:
 > $ python app.py
+
+- Edit picamera file in case of error:
+> If you get the following error: "TypeError: __class__ set to <class 'picamera.mmal.MMAL_FOURCC_T'> defining 'MMAL_FOURCC_T' as <class 'picamera.mmal.MMAL_FOURCC_T'>"
+> Please follow guidelines here: https://github.com/waveform80/picamera/issues/355

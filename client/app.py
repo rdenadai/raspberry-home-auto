@@ -10,12 +10,12 @@ async def main():
     camera = Camera()
     while True:
         capture_image(camera)
+        await asyncio.sleep(1)
 
 
 async def capture_image(camera):
     image = camera.capture()
     image.save('img/image.jpg')
-    await asyncio.sleep(1)
 
 
 if __name__ == '__main__':
