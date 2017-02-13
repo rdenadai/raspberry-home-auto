@@ -15,7 +15,7 @@ async def main():
 
 async def capture_image(camera):
     image = camera.capture()
-    image.save('img/image.jpg')
+    image.save('image/image.jpg')
 
 
 if __name__ == '__main__':
