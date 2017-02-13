@@ -9,7 +9,7 @@ from time import sleep
 async def main():
     camera = Camera()
     while True:
-        capture_image(camera)
+        await capture_image(camera)
         await asyncio.sleep(1)
 
 
