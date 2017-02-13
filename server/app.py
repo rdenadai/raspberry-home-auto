@@ -2,13 +2,16 @@
 
 
 from flask import Flask
-from flask import redirect, request, send_from_directory
+from flask import request, send_from_directory
+from flask import render_template
 from flask_caching import Cache
 from flask_compress import Compress
 
-from configuration import Configuration
+from backend.configuration import Configuration
 
 from backend.main.controller import main
+
+from werkzeug.exceptions import abort
 
 
 # -----------------------------------------------------
@@ -22,7 +25,11 @@ cache = Cache(config={'CACHE_TYPE': 'memcached'})
 # -----------------------------------------------------
 # Flask Application
 # -----------------------------------------------------
-app = Flask(Configuration.NAME)
+app = Flask(
+    Configuration.NAME,
+    static_folder=Configuration.STATIC_FOLDER,
+    template_folder=Configuration.TEMPLATE_FOLDER
+)
 # -----------------------------------------------------
 # Compressing to gzip integration!
 # -----------------------------------------------------
@@ -35,7 +42,27 @@ cache.init_app(app)
 # -----------------------------------------------------
 # CONFIGURATION
 # ------------------------------------------
-app.config.from_object('configuration.Configuration')
+app.config.from_object('backend.configuration.Configuration')
+
+
+# -----------------------------------------------------
+# DEFAULT ROUTE, ALWAYS PRINT HOME SCREEN... THIS IS A REACT APP
+# -----------------------------------------------------
+@app.route('/')
+@cache.cached(timeout=1)
+def index():
+    return render_template('index.html')
+
+
+# -----------------------------------------------------
+# SUB PATHS INSIDE REACT APP
+# -----------------------------------------------------
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    if 'app' in path:
+        return render_template('index.html')
+    return abort(404)
 
 
 # -----------------------------------------------------

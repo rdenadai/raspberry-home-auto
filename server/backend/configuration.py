@@ -6,6 +6,8 @@ import os
 
 class Configuration(object):
     NAME = 'raspberry-home-auto'
+    STATIC_FOLDER = 'frontend/static'
+    TEMPLATE_FOLDER = 'frontend/templates'
     DEBUG = True
     COMPRESS_LEVEL = 9
     ASSETS_DEBUG = True
