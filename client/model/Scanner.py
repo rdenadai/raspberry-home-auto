@@ -32,8 +32,10 @@ class NetworkScanner():
 
     def __init__(self):
         self.data = []
+        self.running = False
 
     def scan(self):
+        self.running = True
         ips_address = []
         for ip_address in range(0, 255):
             ips_address.append(f'192.168.0.{ip_address}')
@@ -62,3 +64,4 @@ class NetworkScanner():
                 'mac': mac,
                 'vendor': vendor
             })
+        self.running = False

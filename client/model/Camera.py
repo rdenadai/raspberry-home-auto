@@ -12,12 +12,16 @@ class Camera():
     def __init__(self):
         """Construtor."""
         self.picamera = PiCamera()
+        self.running = False
 
     def capture(self):
+        self.running = True
         stream = BytesIO()
         self.picamera.start_preview()
         sleep(2)
         self.picamera.capture(stream, format='jpeg')
         # "Rewind" the stream to the beginning so we can read its content
         stream.seek(0)
-        return Image.open(stream)
+        image = Image.open(stream)
+        self.running = False
+        return image

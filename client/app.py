@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+import time
 import asyncio
 from model.Scanner import NetworkScanner
 from model.Camera import Camera
@@ -10,14 +11,18 @@ async def main():
     camera = Camera()
     ns = NetworkScanner()
     while True:
-        await capture_image(camera)
-        await capture_network(ns)
-        await asyncio.sleep(1)
+        if not camera.running:
+            await capture_image(camera)
+            await asyncio.sleep(1)
+        if not ns.running:
+            await capture_network(ns)
+            await asyncio.sleep(1)
 
 
 async def capture_image(camera):
     image = camera.capture()
-    image.save('image/image.jpg')
+    ts = int(time.time())
+    image.save(f'image/image.{ts}.jpg')
 
 
 async def capture_network(ns):
