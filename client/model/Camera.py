@@ -12,6 +12,7 @@ class Camera():
     def __init__(self):
         """Construtor."""
         self.picamera = PiCamera()
+        self.picamera.led = False
         self.running = False
 
     def capture(self):

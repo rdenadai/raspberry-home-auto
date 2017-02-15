@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+import logging
 import time
 import asyncio
 from model.Scanner import NetworkScanner
@@ -12,11 +13,17 @@ async def main():
     ns = NetworkScanner()
     while True:
         if not camera.running:
+            logging.info('-' * 10)
+            logging.info("Picamera taking a picture...")
             await capture_image(camera)
-            await asyncio.sleep(1)
+            logging.info("Picamera goes to sleep a little...")
+            await asyncio.sleep(2)
         if not ns.running:
+            logging.info('-' * 10)
+            logging.info("Networking will be run...")
             await capture_network(ns)
-            await asyncio.sleep(1)
+            logging.info("Networking goes to sleep a little...")
+            await asyncio.sleep(2)
 
 
 async def capture_image(camera):
