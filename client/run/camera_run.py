@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+import os
 import asyncio
 import logging
 import time
@@ -24,7 +25,8 @@ async def capture_image(camera):
     ts = str(int(time.time()))
     hash = str(uuid.uuid4())
     # This makes, every image unique!
-    image.save('image/image.%s.%s.jpg' % (ts, hash))
+    path = os.path.abspath(__file__)
+    image.save(path + 'image/image.%s.%s.jpg' % (ts, hash))
 
 
 # Run using: python -m client.run.camera_run
