@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import nmap
+
+import logging
 import subprocess
 from subprocess import PIPE, STDOUT, DEVNULL
-import sys
 import time
 import uuid
-from multiprocessing import cpu_count, Pool, Process, Queue
-from socket import *
+from multiprocessing import cpu_count, Pool
+
+import nmap
 
 
 # Information:
@@ -16,20 +17,26 @@ from socket import *
 
 
 def scan_active_ips(ip_address):
-    active_hosts = []
-    fping = subprocess.call(
-        ["fping", "-c1", "-b1", "-t200", ip_address],
-        stdin=PIPE, stdout=DEVNULL, stderr=STDOUT
-    )
-    if fping == 0:
-        return ip_address
+    try:
+        fping = subprocess.call(
+            ["fping", "-c1", "-b1", "-t200", ip_address],
+            stdin=PIPE, stdout=DEVNULL, stderr=STDOUT
+        )
+        if fping == 0:
+            return ip_address
+    except Exception as e:
+        logging.error(str(e))
     return None
 
 
 def scan_active_host(host):
-    nm = nmap.PortScanner()
-    nm.scan(host, arguments='-n -O -sN -PE --min-rate 5000', sudo=True)
-    return nm[host]
+    try:
+        nm = nmap.PortScanner()
+        nm.scan(host, arguments='-n -O -sN -PE --min-rate 5000', sudo=True)
+        return nm[host]
+    except Exception as e:
+        logging.error(str(e))
+    return None
 
 
 class NetworkScanner():
@@ -46,17 +53,21 @@ class NetworkScanner():
             ips_address.append('192.168.0.%s' % (str(ip_address)))
 
         num_consumers = cpu_count() * 4
+
+        # Process fping command
         pool_fping = Pool(processes=num_consumers)
         active_hosts = list(filter(None.__ne__,
                             set(pool_fping.map(scan_active_ips, ips_address))))
         pool_fping.close()
         pool_fping.join()
 
-
+        # Process nmap command!
         pool_nmap = Pool(processes=num_consumers)
-        hosts_list = pool_nmap.map(scan_active_host, active_hosts)
+        hosts_list = list(filter(None.__ne__, set(pool_nmap.map(scan_active_host, active_hosts))))
         pool_nmap.close()
         pool_nmap.join()
+
+        # Run the list of hosts to generate data!
         for host in hosts_list:
             hostname = host.hostname()
             state = host.state()
