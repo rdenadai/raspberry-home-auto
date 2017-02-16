@@ -25,7 +25,7 @@ P.S.: Python 3 support only...
 >
 > $ python -m client.run.camera_run
 
-- There are shell scripts prepared to be run using systemd:
+- There are shell scripts prepared to be run using systemd (please, look inside systemd folder):
 > $ startup_camera.sh
 >
 > and others... for each service!

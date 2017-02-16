@@ -18,6 +18,7 @@ async def main():
             await capture_image(camera)
             logging.warning("Picamera goes to sleep for 1 second...")
             await asyncio.sleep(1)
+            await remove_old_images()
 
 
 async def capture_image(camera):
@@ -27,6 +28,20 @@ async def capture_image(camera):
     # This makes, every image unique!
     path = os.path.dirname(os.path.abspath(__file__))
     image.save(path + '/../image/image.%s.%s.jpg' % (ts, hash))
+
+
+async def remove_old_images():
+    path = os.path.dirname(os.path.abspath(__file__)) + '/../image/'
+    now = time.time()
+    # cutoff = now - (5 * 86400)
+    cutoff = now - 60
+    for arquivo in os.listdir(path):
+        filepath = str(path) + arquivo
+        if os.path.isfile(filepath) and '.jpg' in arquivo:
+            t = os.stat(filepath)
+            c = t.st_ctime
+            if c < cutoff:
+                os.remove(filepath)
 
 
 # Run using: python -m client.run.camera_run
