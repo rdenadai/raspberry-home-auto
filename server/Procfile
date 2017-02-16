@@ -1,2 +1,2 @@
-web: uwsgi --ini wsgi.ini
-queue: celery -A tasks:celery worker -E
+web: sh -c 'cd ./server/ && exec uwsgi --ini wsgi.ini'
+queue: sh -c 'cd ./server/ && exec celery -A tasks:celery worker -E'

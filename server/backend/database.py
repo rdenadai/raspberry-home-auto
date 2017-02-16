@@ -5,7 +5,7 @@ from flask import g
 from pymongo import MongoClient
 import redis
 
-from configuration import Configuration
+from .configuration import Configuration
 
 
 class Database():

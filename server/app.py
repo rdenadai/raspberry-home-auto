@@ -10,6 +10,7 @@ from flask_compress import Compress
 from backend.configuration import Configuration
 
 from backend.main.controller import main
+from backend.network.controller import network
 
 from werkzeug.exceptions import abort
 
@@ -69,6 +70,7 @@ def catch_all(path):
 # START BLUEPRINT APPS API!
 # -----------------------------------------------------
 app.register_blueprint(main)
+app.register_blueprint(network, url_prefix='/network')
 # -----------------------------------------------------
 # END: BLUEPRINT APPS API!
 # -----------------------------------------------------

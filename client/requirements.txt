@@ -2,3 +2,4 @@ picamera==1.12
 Pillow==4.0.0
 RPi.GPIO==0.6.3
 python-nmap==0.6.1
+requests==2.12.3

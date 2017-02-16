@@ -42,12 +42,20 @@ def scan_active_host(host):
 class NetworkScanner():
 
     def __init__(self):
-        self.data = []
+        self.__restart_data()
         self.running = False
 
+    def __restart_data(self):
+        self.registry = {
+            'uuid': str(uuid.uuid4()),
+            'time': int(time.time()),
+            'data': []
+        }
+
     def scan(self):
-        self.data = []
+        self.__restart_data()
         self.running = True
+
         ips_address = []
         for ip_address in range(0, 255):
             ips_address.append('192.168.0.%s' % (str(ip_address)))
@@ -79,13 +87,11 @@ class NetworkScanner():
                     mac = host['addresses']['mac']
                     vendor = host['vendor'][mac]
 
-                self.data.append({
-                    'uuid': str(uuid.uuid4()),
+                self.registry['data'].append({
                     'hostname': hostname,
                     'state': state,
                     'ipv4': ipv4,
                     'mac': mac,
-                    'vendor': vendor,
-                    'time': int(time.time())
+                    'vendor': vendor
                 })
         self.running = False

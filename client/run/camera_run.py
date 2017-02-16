@@ -18,6 +18,7 @@ async def main():
             await capture_image(camera)
             logging.warning("Picamera goes to sleep for 1 second...")
             await asyncio.sleep(1)
+            logging.warning("Picamera removing old images...")
             await remove_old_images()
 
 
