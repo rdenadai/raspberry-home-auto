@@ -1,0 +1,12 @@
+[Unit]
+Description=Raspberry Pi Home Automation: Network Service
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+ExecStart=/home/pi/raspberry-home-auto/client/systemd/startup_network.sh
+
+[Install]
+WantedBy=multi-user.target

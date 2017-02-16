@@ -20,10 +20,15 @@ P.S.: Python 3 support only...
 - Also, don't forget do install the python3-smbus module:
 > $ sudo apt install python3-smbus
 
-- Register the services to run, using supervisor, or in cron:
+- Register the services to run, using supervisor (circus), or in cron:
 > $ python -m client.run.network_run
 >
 > $ python -m client.run.camera_run
+
+- There are shell scripts prepared to be run using systemd:
+> $ startup_camera.sh
+>
+> and others... for each service!
 
 - Edit picamera file in case of error:
 > If you get the following error: "TypeError: __class__ set to <class 'picamera.mmal.MMAL_FOURCC_T'> defining 'MMAL_FOURCC_T' as <class 'picamera.mmal.MMAL_FOURCC_T'>"
