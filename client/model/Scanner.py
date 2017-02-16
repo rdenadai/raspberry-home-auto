@@ -43,7 +43,7 @@ class NetworkScanner():
         self.running = True
         ips_address = []
         for ip_address in range(0, 255):
-            ips_address.append(f'192.168.0.{ip_address}')
+            ips_address.append('192.168.0.%s' % (str(ip_address)))
 
         num_consumers = cpu_count() * 4
         pool_fping = Pool(processes=num_consumers)

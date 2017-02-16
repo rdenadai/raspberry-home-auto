@@ -21,10 +21,10 @@ async def main():
 
 async def capture_image(camera):
     image = camera.capture()
-    ts = int(time.time())
+    ts = str(int(time.time()))
     hash = str(uuid.uuid4())
     # This makes, every image unique!
-    image.save(f'image/image.{ts}.{hash}.jpg')
+    image.save('image/image.%s.%s.jpg' % (ts, hash))
 
 
 # Run using: python -m client.run.camera_run
