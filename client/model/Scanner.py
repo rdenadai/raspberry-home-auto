@@ -63,28 +63,29 @@ class NetworkScanner():
 
         # Process nmap command!
         pool_nmap = Pool(processes=num_consumers)
-        hosts_list = list(filter(None.__ne__, set(pool_nmap.map(scan_active_host, active_hosts))))
+        hosts_list = pool_nmap.map(scan_active_host, active_hosts)
         pool_nmap.close()
         pool_nmap.join()
 
         # Run the list of hosts to generate data!
         for host in hosts_list:
-            hostname = host.hostname()
-            state = host.state()
-            ipv4 = host['addresses']['ipv4']
-            mac = ''
-            vendor = ''
-            if host['vendor']:
-                mac = host['addresses']['mac']
-                vendor = host['vendor'][mac]
+            if host:
+                hostname = host.hostname()
+                state = host.state()
+                ipv4 = host['addresses']['ipv4']
+                mac = ''
+                vendor = ''
+                if host['vendor']:
+                    mac = host['addresses']['mac']
+                    vendor = host['vendor'][mac]
 
-            self.data.append({
-                'uuid': str(uuid.uuid4()),
-                'hostname': hostname,
-                'state': state,
-                'ipv4': ipv4,
-                'mac': mac,
-                'vendor': vendor,
-                'time': int(time.time())
-            })
+                self.data.append({
+                    'uuid': str(uuid.uuid4()),
+                    'hostname': hostname,
+                    'state': state,
+                    'ipv4': ipv4,
+                    'mac': mac,
+                    'vendor': vendor,
+                    'time': int(time.time())
+                })
         self.running = False
