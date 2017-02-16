@@ -68,7 +68,7 @@ class NetworkScanner():
                 vendor = host['vendor'][mac]
 
             self.data.append({
-                'uuid': str(uuid.uuid4())
+                'uuid': str(uuid.uuid4()),
                 'hostname': hostname,
                 'state': state,
                 'ipv4': ipv4,

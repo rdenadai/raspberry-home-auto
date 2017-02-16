@@ -13,7 +13,10 @@ P.S.: Python 3 support only...
 
 - Please create a virtualenv first:
 > $ virtualenv venv
+>
 > $ pip install requirements.txt
 
 - Startup
 > $ uwsgi --http 0.0.0.0:8181 -w wsgi --wsgi-disable-file-wrapper --async 10 --ugreen --processes 4 --enable-threads
+>
+> $ celery -A tasks:celery worker --loglevel=info
