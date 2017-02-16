@@ -25,7 +25,7 @@ async def capture_image(camera):
     ts = str(int(time.time()))
     hash = str(uuid.uuid4())
     # This makes, every image unique!
-    path = os.path.abspath(__file__)
+    path = os.path.dirname(os.path.abspath(__file__))
     image.save(path + '../image/image.%s.%s.jpg' % (ts, hash))
 
 
